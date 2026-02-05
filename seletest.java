@@ -44,7 +44,7 @@ public class seletest {
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
 
-       driver.get("https://portal.accenture.com/#/");
+       driver.get("https://accenture.com/#/");
         System.out.println(driver.getTitle());
 
         driver.quit();
