@@ -1,4 +1,4 @@
-package Fedex.convertedcodes;
+
  
 import java.time.Duration;
 import java.util.List;
@@ -26,7 +26,7 @@ import Fedex.Testngtestcase.Screenshot;
 import Fedex.convertedcodes.SPAdvancesearch.TestUtils;
  
  
-public class seletest {
+public class SeletestTest {
 	 static WebDriver driver;
 	    static WebDriverWait wait;
 	    ExtentReports extent;
