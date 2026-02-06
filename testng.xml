@@ -2,7 +2,7 @@
 <suite name="Suite">
 <test name="SeleniumTests">
 <classes>
-<class name="seletest"/>
+<class name="SeletestTest"/>
 </classes>
 </test>
 </suite>
