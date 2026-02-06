@@ -44,7 +44,7 @@ public class seletest {
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
 
-       driver.get("https://accenture.com/#/");
+       driver.get("https://www.accenture.com/in-en/careers");
         System.out.println(driver.getTitle());
 
         driver.quit();
@@ -67,18 +67,20 @@ public class seletest {
 	    	   
 	    	      
 	    	        // ✅ Click Search Button
-	    	        WebElement searchButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='nav-labels']")));
-	    	        Screenshot.highlightElement(driver, searchButton);
-	    	        String searchScreenshot = Screenshot.takeScreenshot(driver, "search_button");
-	    	        searchButton.click();
-	    	        test.pass("click on need to know", MediaEntityBuilder.createScreenCaptureFromPath(searchScreenshot).build());
-	    	        
-	    	        WebElement high = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='ni-date']")));
-	    	        Screenshot.highlightElement(driver, high);
-	    	        String highscree = Screenshot.takeScreenshot(driver, "search_button");
-	    	       
-	    	        test.pass("click on date", MediaEntityBuilder.createScreenCaptureFromPath(highscree).build());
-	    	       
+	    	      WebElement searchButton = wait.until(
+    ExpectedConditions.elementToBeClickable(
+        By.cssSelector(".rad-header__search-button")
+    )
+);
+
+Screenshot.highlightElement(driver, searchButton);
+String searchScreenshot = Screenshot.takeScreenshot(driver, "search_button");
+searchButton.click();
+
+test.pass("Click on Need to Know",
+    MediaEntityBuilder.createScreenCaptureFromPath(searchScreenshot).build());
+
+	    	      
 	    	        
 	    	        
 	    	        
