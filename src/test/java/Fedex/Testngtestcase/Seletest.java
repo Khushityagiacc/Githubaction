@@ -26,7 +26,7 @@ import Fedex.Testngtestcase.Screenshot;
 import Fedex.convertedcodes.SPAdvancesearch.TestUtils;
  
  
-public class seletest {
+public class Seletest {
 	 static WebDriver driver;
 	    static WebDriverWait wait;
 	    ExtentReports extent;
