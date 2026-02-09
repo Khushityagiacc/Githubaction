@@ -13,11 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout the repo
+      # 1️⃣ Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Setup Java
+      # 2️⃣ Setup Java 17
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
@@ -33,6 +33,7 @@ jobs:
         run: |
           mkdir -p reports
           mkdir -p screenshots
+          mkdir -p test-output
 
       # 5️⃣ Run Selenium TestNG tests
       - name: Run tests
@@ -40,12 +41,12 @@ jobs:
           DISPLAY: :99  # required for headless Chrome
         run: mvn test
 
-      # 6️⃣ Upload reports/screenshots as artifacts
+      # 6️⃣ Upload test artifacts
       - name: Upload Test Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: test-artifacts
+          name: selenium-test-artifacts
           path: |
-            test-output
             reports
             screenshots
+            test-output
