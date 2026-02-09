@@ -1,29 +1,23 @@
 package Fedex.convertedcodes;
- 
+
 import java.time.Duration;
 import java.util.List;
- 
+
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.annotations.*;
- 
+
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
- 
-import Fedex.PDRENTAL.ConfigReader;
-import Fedex.Testngtestcase.Extenrreport;
-import Fedex.Testngtestcase.Screenshot;
-import Fedex.convertedcodes.SPAdvancesearch.TestUtils;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
  
  
 public class Seletest {
