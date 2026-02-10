@@ -2,47 +2,37 @@ name: Selenium CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Setup Java 17
-      - name: Setup Java
+      - name: Setup Java 17
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: 17
 
-      # 3️⃣ Install Maven dependencies
-      - name: Setup Maven
-        run: mvn install -DskipTests
+      - name: Build project (skip tests)
+        run: mvn clean install -DskipTests
 
-      # 4️⃣ Create folders for reports/screenshots
-      - name: Create folders
+      - name: Create output folders
         run: |
           mkdir -p reports
           mkdir -p screenshots
           mkdir -p test-output
 
-      # 5️⃣ Run Selenium TestNG tests
-      - name: Run tests
-        env:
-          DISPLAY: :99  # required for headless Chrome
+      - name: Run TestNG Selenium tests
         run: mvn test
 
-      # 6️⃣ Upload test artifacts
-      - name: Upload Test Artifacts
+      - name: Upload Selenium Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: selenium-test-artifacts
