@@ -5,7 +5,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.*;
 
-import com.aventstack.extentreports.*;
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -18,8 +20,9 @@ public class Seletest {
     @BeforeTest
     public void setup() {
 
-        extent = ExtentManager.getReport();
-        test = extent.createTest("Sample Selenium Test");
+        // ✅ USE YOUR CLASS
+        extent = Extenrreport.getInstance();
+        test = extent.createTest("Smoke Test - Screenshot + Report");
 
         WebDriverManager.chromedriver().setup();
 
@@ -27,27 +30,28 @@ public class Seletest {
         options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--window-size=1920,1080");
 
         driver = new ChromeDriver(options);
     }
 
     @Test
-    public void openGoogleAndTakeScreenshot() throws Exception {
+    public void openGoogle() {
 
         driver.get("https://www.google.com");
-        test.pass("Opened Google");
 
-        String screenshot = ScreenshotUtil.takeScreenshot(driver, "google_home");
+        String screenshotPath = Screenshot.takeScreenshot(driver, "google_home");
+
         test.pass(
-                "Screenshot captured",
-                MediaEntityBuilder.createScreenCaptureFromPath(screenshot).build()
+                "Google opened successfully",
+                MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build()
         );
     }
 
     @AfterTest
     public void tearDown() {
-        if (driver != null) driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
         extent.flush();
     }
 }
