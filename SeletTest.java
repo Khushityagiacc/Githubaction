@@ -19,7 +19,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import Fedex.Testngtestcase.Extenrreport;
 import Fedex.Testngtestcase.Screenshot;
 
-public class SeletestTest {
+public class SeletTest {
 
     static WebDriver driver;
     static WebDriverWait wait;
