@@ -18,82 +18,90 @@ import com.aventstack.extentreports.MediaEntityBuilder;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
- 
- 
 public class Seletest {
-	 static WebDriver driver;
-	    static WebDriverWait wait;
-	    ExtentReports extent;
-	    static ExtentTest test;
- 
-	    @BeforeTest
-	    public void launchBrowser() {
-	        extent = Extenrreport.getInstance(); // Initialize Extent Reports
-	        test = extent.createTest("Maximo Login Test");
- 
-	         WebDriverManager.chromedriver().setup();
+
+    static WebDriver driver;
+    static WebDriverWait wait;
+    static ExtentReports extent;
+    static ExtentTest test;
+
+    @BeforeTest
+    public void launchBrowser() {
+
+        extent = Extenrreport.getInstance();
+        test = extent.createTest("Accenture UI Test");
+
+        WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless=new");      // required for GitHub Actions
+        options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--window-size=1920,1080");
 
-       driver.get("https://accenture.com/#/");
-        System.out.println(driver.getTitle());
+        driver = new ChromeDriver(options);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
-        driver.quit();
-	    }
-	    @Test
-	    public void test() throws InterruptedException {
-	    		    	List<WebElement> frames = driver.findElements(By.tagName("iframe"));
-	    	System.out.println("Total iframes on the page: " + frames.size());
-	    	for (int i = 0; i < frames.size(); i++) {
-	    	    System.out.println("Frame " + i + ": id=" + frames.get(i).getAttribute("id") + ", name=" + frames.get(i).getAttribute("name"));
-	    	}
- 
-	    	boolean elementFound = false;
-	    	for (int i = 0; i < frames.size(); i++) {
-	    	    try {
-	    	    	driver.switchTo().defaultContent();
-	    	        driver.switchTo().frame(frames.get(i));
-	    	        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-	    	      
-	    	   
-	    	      
-	    	        // ✅ Click Search Button
-	    	        WebElement searchButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='nav-labels']")));
-	    	        Screenshot.highlightElement(driver, searchButton);
-	    	        String searchScreenshot = Screenshot.takeScreenshot(driver, "search_button");
-	    	        searchButton.click();
-	    	        test.pass("click on need to know", MediaEntityBuilder.createScreenCaptureFromPath(searchScreenshot).build());
-	    	        
-	    	        WebElement high = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='ni-date']")));
-	    	        Screenshot.highlightElement(driver, high);
-	    	        String highscree = Screenshot.takeScreenshot(driver, "search_button");
-	    	       
-	    	        test.pass("click on date", MediaEntityBuilder.createScreenCaptureFromPath(highscree).build());
-	    	       
-	    	        
-	    	        
-	    	        
-	    	        
-	    	        elementFound = true;
-	    	        
-	    	        
-	    	        
-	    	        // Found and done - exit the iframe loop
-	    	        
-	    	        
-	    	   break;
-	    	   	            } catch (Exception e) {
-	    	   	                System.out.println("Element not found in frame index: " + i + " - " + e.getMessage());
-	    	   	                // Switch back to default content before next iteration
-	    	   	                driver.switchTo().defaultContent();
-	    	   	            }
-	    	   	        }
-	    }
- 
+        driver.get("https://accenture.com/#/");
+        System.out.println("Title: " + driver.getTitle());
+    }
+
+    @Test
+    public void testIframesAndClick() {
+
+        List<WebElement> frames = driver.findElements(By.tagName("iframe"));
+        System.out.println("Total iframes: " + frames.size());
+
+        boolean elementFound = false;
+
+        for (int i = 0; i < frames.size(); i++) {
+            try {
+                driver.switchTo().defaultContent();
+                driver.switchTo().frame(frames.get(i));
+
+                WebElement searchButton = wait.until(
+                        ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='nav-labels']"))
+                );
+
+                Screenshot.highlightElement(driver, searchButton);
+                String searchShot = Screenshot.takeScreenshot(driver, "search_button");
+
+                searchButton.click();
+                test.pass(
+                        "Clicked Need to Know",
+                        MediaEntityBuilder.createScreenCaptureFromPath(searchShot).build()
+                );
+
+                WebElement date = wait.until(
+                        ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='ni-date']"))
+                );
+
+                Screenshot.highlightElement(driver, date);
+                String dateShot = Screenshot.takeScreenshot(driver, "date");
+
+                test.pass(
+                        "Date element visible",
+                        MediaEntityBuilder.createScreenCaptureFromPath(dateShot).build()
+                );
+
+                elementFound = true;
+                break;
+
+            } catch (Exception e) {
+                System.out.println("Not found in iframe " + i + ": " + e.getMessage());
+            }
+        }
+
+        if (!elementFound) {
+            test.fail("Element not found in any iframe");
+        }
+    }
+
+    @AfterTest
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+        extent.flush();
+    }
 }
- 
-
- 
