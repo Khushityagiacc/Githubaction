@@ -20,7 +20,7 @@ import org.openqa.selenium.WebDriver;
 
 import org.openqa.selenium.WebElement;
 
-public class Screenshot {
+public class Screnshot {
 
     public static void highlightElement(WebDriver driver, WebElement element) {
 
